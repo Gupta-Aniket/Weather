@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
+import 'loading_screen.dart';
+import 'package:clima/screens/loading_screen.dart';
+import 'dart:convert';
 
 class LocationScreen extends StatefulWidget {
-  const LocationScreen({super.key});
+  var locationWeather;
+  LocationScreen({this.locationWeather});
 
   @override
   State<LocationScreen> createState() => _LocationScreenState();
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  void initState() {
+    print(widget.locationWeather);
+    //passing the data to the state of a class, widget is a different object of a class
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +60,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 child: Row(
                   children: <Widget>[
                     Text(
-                      '32°',
+                      '32',
                       style: kTempTextStyle,
                     ),
                     Text(
@@ -69,6 +78,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   style: kMessageTextStyle,
                 ),
               ),
+              SizedBox(),
             ],
           ),
         ),
@@ -76,3 +86,7 @@ class _LocationScreenState extends State<LocationScreen> {
     );
   }
 }
+
+// double tempreature = decode["main"]["temp"];
+//
+// String cityName = decode["name"];
