@@ -4,8 +4,8 @@ import 'package:weather/weather.dart';
 import 'package:clima/services/location.dart';
 import 'package:clima/screens/location_screen.dart';
 import 'package:clima/services/networking.dart';
-
-const apiKey = "c7d1990b47fd00b2889508bdb7be4e8c";
+import 'package:clima/services/weather.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -17,20 +17,18 @@ class _LoadingScreenState extends State<LoadingScreen> {
   double lat = 0.0;
   double long = 0.0;
   @override
-  void initState() {
-    super.initState();
-    getLocationData();
-  }
+      void initState() {
+        super.initState();
+        print("init called");
+        getLocationData();
+      }
 
   void getLocationData() async {
-    Location l = Location();
-    await l.getCurrentLocation();
-
-    NetworkHelper network = NetworkHelper(
-        'http://api.openweathermap.org/data/2.5/weather?lat=$l.latitude&lon=$l.longitude&appid=$apiKey&units=metric');
-    // print(lat);
-    // print(long);
-    var weatherData = await network.getWeatherData();
+    WeatherModel weatherModel = WeatherModel();
+    var weatherData = await weatherModel.getLocationWeather();
+    // var weatherData = await weatherModel.getLocationWeather;
+    // simply calling the function like this wont work:
+    // because i dont know how to call a function, the function call always uses parenthesis.
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return LocationScreen(locationWeather: weatherData);
     }));
@@ -38,7 +36,28 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("build called");
     getLocationData();
-    return Scaffold();
+
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            Icon(
+              Icons.location_on_sharp,
+              size: 100,
+            ),
+            SpinKitThreeBounce(
+              color: Colors.white70,
+              size: 50,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

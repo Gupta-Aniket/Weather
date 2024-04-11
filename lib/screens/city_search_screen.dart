@@ -9,6 +9,12 @@ class Forecast extends StatefulWidget {
 }
 
 class _ForecastState extends State<Forecast> {
+  String cityName = "";
+
+  void goBack(String cityName) {
+    Navigator.pop(context, cityName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +31,7 @@ class _ForecastState extends State<Forecast> {
             children: <Widget>[
               Align(
                 alignment: Alignment.topLeft,
-                child: ElevatedButton(
+                child: TextButton(
                   onPressed: () {},
                   child: Icon(
                     Icons.arrow_back_ios,
@@ -33,12 +39,32 @@ class _ForecastState extends State<Forecast> {
                   ),
                 ),
               ),
+              // Icon(
+              //   Icons.location_city_rounded,
+              //   size: 40,
+              // ),
               Container(
                 padding: EdgeInsets.all(20.0),
-                child: null,
+                child: TextField(
+                  autofocus: true,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                  ),
+                  decoration: kInputDecoration,
+                  onChanged: (value) {
+                    cityName = value;
+                  },
+                  onSubmitted: (value) {
+                    goBack(cityName);
+                  },
+                ),
               ),
+
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  goBack(cityName);
+                },
                 child: Text(
                   'Get Weather',
                   style: kButtonTextStyle,
